@@ -190,13 +190,15 @@ inputResolution.addEventListener("input", changeRes);
 resValueDisplay = document.getElementById("resValueDisplay");
 
 let resolutionActual = 64;
+let multiplesPower = resolutionActual/64;
+
 function changeRes() {
     bogosBinted = inputResolution.value - 1;
     resolutionActual = 2**(6+bogosBinted);
     resValueDisplay.textContent = `${resolutionActual/4}x`;
     multiplesPower = resolutionActual/64;
 
-    console.log(multiplesPower);
+    // console.log(multiplesPower);
     checkCondition();
 }
 
