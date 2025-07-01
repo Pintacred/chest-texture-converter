@@ -7,14 +7,12 @@ const bedrock_chest_UVmap = {
     "bar_front": [1, 1, 2, 4],
     "bar_left": [3, 1, 1, 4],
     "bar_back": [4, 1, 2, 4],
-    
     "lid_top": [14, 0, 14, 14],
     "lid_bottom": [28, 0, 14, 14],
     "lid_right": [0, 14, 14, 5],
     "lid_front": [14, 14, 14, 5],
     "lid_left": [28, 14, 14, 5],
     "lid_back": [42, 14, 14, 5],
-    
     "container_top": [14, 19, 14, 14],
     "container_bottom": [28, 19, 14, 14],
     "container_right": [0, 33, 14, 10],
@@ -29,14 +27,12 @@ const java_chest_UVmap = {
     "bar_back": [1, 1, 2, 4],
     "bar_left": [3, 1, 1, 4],
     "bar_front": [4, 1, 2, 4],
-    
     "lid_bottom": [14, 0, 14, 14],
     "lid_top": [28, 0, 14, 14],
     "lid_right": [0, 14, 14, 5],
     "lid_back": [14, 14, 14, 5],
     "lid_left": [28, 14, 14, 5],
     "lid_front": [42, 14, 14, 5],
-    
     "container_bottom": [14, 19, 14, 14],
     "container_top": [28, 19, 14, 14],
     "container_right": [0, 33, 14, 10],
@@ -143,6 +139,20 @@ const canvasLabel2 = document.getElementById("canvasLabel2");
 FileColumn2nd = document.getElementById("FileColumn2nd");
 
 function checkCondition() {
+    canvas2.width = resolutionActual;
+    canvas2.height = resolutionActual;
+
+    canvasMerge.width = (resolutionActual*2);
+    canvasMerge.height = resolutionActual;
+
+    canvasResultSecondLayer1.width = (resolutionActual);
+    canvasResultSecondLayer1.height = (resolutionActual);
+
+    canvasResultSecondLayer2.width = (resolutionActual);
+    canvasResultSecondLayer2.height = (resolutionActual);
+
+    // console.log("canvas2 width and height: " + canvas2.height);
+
     if (chestType.value === "doubleChest") {
         canvasResult.width = (resolutionActual*2);
         canvasResult.height = resolutionActual;
@@ -202,12 +212,16 @@ let resolutionActual = 64;
 let multiplesPower = resolutionActual/64;
 
 function changeRes() {
-    bogosBinted = inputResolution.value - 1;
-    resolutionActual = 2**(6+bogosBinted);
+    valueIndex = inputResolution.value - 1;
+    resolutionActual = 2**(6+valueIndex);
     resValueDisplay.textContent = `${resolutionActual/4}x`;
     multiplesPower = resolutionActual/64;
 
-    // console.log(multiplesPower);
+    console.log("- - - - - - - - - - - - - - - - - - - - - - - -")
+    console.log("resolutionActual: " + resolutionActual);
+    console.log("multiplesPower: " + multiplesPower);
+    console.log("valueIndex: " + valueIndex);
+    console.log("resolution / 4 = " + (resolutionActual/4));
     checkCondition();
 }
 
@@ -277,7 +291,12 @@ function useUV(UVfrom, UVto, imageFrom) {
             const [DestX, destY, UnusedW, UnusedH] = editionDestUV;
 
             // width, height, startX, startY, destX, destY
-            convertPortion(w*multiplesPower, h*multiplesPower, OrigX*multiplesPower, OrigY*multiplesPower, DestX*multiplesPower, destY*multiplesPower, imageFrom);
+            convertPortion(
+                (w*multiplesPower), (h*multiplesPower), 
+                (OrigX*multiplesPower), (OrigY*multiplesPower), 
+                (DestX*multiplesPower), (destY*multiplesPower), 
+                imageFrom
+            );
 
         }
     }
@@ -306,8 +325,9 @@ canvasMerge = document.getElementById("canvasMerge");
 ctxMerge = canvasMerge.getContext("2d");
 
 function mergeTexture(image, image2, intoImageCtx) {
-    intoImageCtx.drawImage(image, 0, 0, resolutionActual, resolutionActual)
-    intoImageCtx.drawImage(image2, resolutionActual, 0, resolutionActual, resolutionActual)
+    intoImageCtx.clearRect(0, 0, canvasMerge.width, canvasMerge.height);
+    intoImageCtx.drawImage(image, 0, 0, resolutionActual, resolutionActual);
+    intoImageCtx.drawImage(image2, resolutionActual, 0, resolutionActual, resolutionActual);
 }
 
 
@@ -315,6 +335,9 @@ let convertBtn = document.getElementById("convertBtn");
 convertBtn.addEventListener("click", function () {
     // clear the result's canvas first to prevent overlaying and to reset
     ctxResult.clearRect(0, 0, canvasResult.width, canvasResult.height);
+
+    ctxResultSecondLayer1.clearRect(0, 0, canvasResult.width, canvasResult.height);
+    ctxResultSecondLayer2.clearRect(0, 0, canvasResult.width, canvasResult.height);
 
     if (chestType.value === "singleChest") {
         // console.log("SINGLE CHEST")
