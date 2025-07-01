@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chest Texture Converter</title>
+    <link rel="shortcut icon" href="Assets/favicon.png" type="image/png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div id="main">
+        <h1>
+            Chest Texture Converter
+            <small style="font-weight: normal; font-family: 'Courier New', Courier, monospace;">&nbsp;v0.3</small>
+        </h1>
+        <div id="description">
+            <p>
+                This program converts the UV mapping of the single and double chest from <span class="highlightFont">Java Edition</span>
+                to <span class="highlightFont">Bedrock Edition</span> and vice versa by rearranging the faces to their different 
+                corresponding positions and orientations.
+            </p>
+            <h3>Instructions are found below.</h3>
+        </div>
+        <hr class="hr1">
+        <div id="program">
+            <div class="split1">
+                <div class="label1">
+                    <label for="gameEdition">Game Edition:</label>
+                    <select name="gameEdition" id="gameEdition" autocomplete="off">
+                        <option value="javaToBedrock">Java to Bedrock</option>
+                        <option value="bedrockToJava">Bedrock to Java</option>
+                    </select>
+                </div>
+                <div class="label1">
+                    <label for="chestType">Chest Type:</label>
+                    <select name="chestType" id="chestType" autocomplete="off">
+                        <option value="singleChest">Single Chest</option>
+                        <option value="doubleChest">Double Chest</option>
+                    </select>
+                </div>
+                <div class="label1">
+                    <label for="inputResolution">Resolution:</label>
+                    <input type="range" id="inputResolution" min="1" max="4" step="1" value="1" autocomplete="off" required>
+                    <label for="inputResolution" id="resValueDisplay">16x</label>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="split2">
+                <div class="label2">
+                    <input id="inputTexture" type="file" accept="image/png" required autocomplete="off">
+                    <br>
+                    <canvas id="canvas1" width="64" height="64"></canvas>
+                    <br><label for="canvas1" id="canvasLabel1">single chest</label>
+                </div>
+
+                <div class="label2" id="FileColumn2nd" style="display: none;">
+
+                    <input id="inputTexture2" type="file" accept="image/png" disabled autocomplete="off">
+                    <br>
+                    <canvas id="canvas2" width="64" height="64"></canvas>
+                    <br><label for="canvas2" id="canvasLabel2"></label>
+                </div>
+            </div>
+
+            <br>
+            <div class="label2">
+                <button id="convertBtn" type="button">CONVERT</button>
+                <button id="downloadBtn" type="button">DOWNLOAD</button>
+
+                <a id="canvasDownload" href="#" style="display: none;">DOWNLOAD</a>
+                <a id="canvasDownload1" href="#" style="display: none;">DOWNLOAD1</a>
+                <a id="canvasDownload2" href="#" style="display: none;">DOWNLOAD2</a>
+
+                <br>
+
+                <canvas id="canvasResult" width="64" height="64"></canvas>
+
+                <canvas id="canvasResultSecondLayer1" width="64" height="64" style="display: none;"></canvas>
+                <canvas id="canvasResultSecondLayer2" width="64" height="64" style="display: none;"></canvas>
+            </div>
+        </div>
+
+        <canvas id="canvasMerge" width="128" height="64" style="display: none;"></canvas>
+        <hr class="hr1">
+        <div id="instructions">
+            <h3>INSTRUCTIONS:</h3>
+            <p>
+                This program only accepts <b><span class="highlightFont">.png</span></b> files.
+                <br><br>
+                <span class="highlightFont">If you're converting a single chest,</span> the texture must be <span class="highlightFont">at least 64x64</span>
+                and is a square. <i>64x65 will not work and you will get a broken image.</i>
+                <br><br>
+                <span class="highlightFont">If you're converting a double chest from Java to Bedrock,</span> both texture files must be 
+                <span class="highlightFont">at least 64x64</span> and are both squares, just like before. 
+                Both left and right textures should also be in the <span class="highlightFont">same resolution.</span> 
+                For example, <i>if the left side is 64x64 and the right side is 128x128, the texture will not convert properly.</i>
+                <br><br>
+                <span class="highlightFont">If you're converting a double chest from Bedrock to Java,</span> the texture must be 
+                <span class="highlightFont">at least 128x64</span> and is a horizontal rectangle.
+                <i>Again, if the dimensions of the image are off, the converted texture will be broken.</i>
+                <br><br>
+                <span class="highlightFont">Resolution is the level of resolution of the texture.</span>
+                The default is 16x. You may notice that the chest texture file is 64x64 pixels, or for the double chest in bedrock, 128x64.
+                In the program though, resolution is the amount of pixels in a full block. So if you're making a 32x texture pack, use resolution=32x.
+                <br>
+            </p>
+        </div>
+        <hr class="hr1">
+        <div>
+            <p>
+                Made by Pintacred.<br>
+                <span class="highlightFont"><b>Inspired by unascribed's 'Ears Skin Manipulator'</b></span>
+            <!-- <ul>
+                <li>
+                    I made this because I was making a texture pack and was very annoyed
+                    <span class="scaryFont">(and very very horrified)</span> at how complicated the Java chest UV map
+                    was. It was especially a nightmare trying to match the double chest's UV from Bedrock to Java.
+                </li>
+                <li>
+                    If you're also very annoyed, confused, and <span class="scaryFont">horrified</span>
+                    by the Java chest UV map, or you just wanna port your Java/Bedrock chest texture to 
+                    the other edition, there is finally an easy way (which is this thing).
+                </li>
+            </ul> -->
+            </p>
+        </div>
+        <br><br><br>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+
+</html>
